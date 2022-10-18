@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moon.mapper.NoticeMapper">
+
+	<sql id="criteria"><!--  반복실행하는 mybatis 태그입니다 -->
+		<trim prefix="(" suffix=") and " prefixOverrides="OR"><!-- where 다음에 or가 오면 지움 -->
+			<foreach collection="typeArr" item="type"><!--  collection="typeArr": item에 type에 저장된 값을 쓸 수 있게 된다 -->
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							writer like '%'||#{keyword}||'%'
+						</when>
+						
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" order="BEFORE" resultType="int">
+			select mj_notice_seq.nextval from dual
+		</selectKey>
+		insert into notice (bno, title, content, writer, regdate, viewcount)
+		values (#{bno}, #{title}, #{content}, #{writer}, sysdate, 0)
+	</insert>
+	
+	<select id="getList" resultType="com.moon.domain.NoticeVO">
+	<![CDATA[
+		select * from notice where bno > 0 order by bno asc
+	]]>
+	</select>
+	
+	<select id="read" resultType="com.moon.domain.NoticeVO">
+	<![CDATA[
+		select * from notice where bno = #{bno}
+	]]>
+	</select>
+	
+	<update id="update">
+		update notice set title=#{title}, content=#{content}, writer=#{writer}, regdate=sysdate 
+		where bno=#{bno}
+	</update>
+	<delete id="delete">
+		delete from notice where bno=#{bno}
+	</delete>
+	<update id="readcount">
+		update notice set viewcount = viewcount+1 where bno = #{bno}
+	</update>
+	<select id="getListWithPaging" resultType="com.moon.domain.NoticeVO"> <!-- 동적 sql -->
+		<![CDATA[ 
+			select 
+				bno, title, content, writer, regdate, viewcount 
+			from (
+				select /*+ index_desc(notice SYS_C008569) */ rownum rn, bno, title, content, writer, regdate, viewcount 
+				from notice 
+				where 
+		]]>	
+		
+		<include refid="criteria"></include>
+		
+		<![CDATA[ 
+				rownum <= #{pageNum} * #{amount} 
+			)
+			where rn > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
+	<select id="getTotalCount" resultType="int"><!-- 전체 레코드 수 구하기 -->
+		select count(*) from notice where
+		
+		<include refid="criteria"></include>
+		<![CDATA[ 
+		bno > 0 
+		]]>
+	</select>
+	
+	<select id="nextPage" resultType="com.moon.domain.NoticeVO">
+	<![CDATA[ 
+		select * from notice where bno > #{bno} and rownum = 1 order by bno asc
+		]]>
+	</select>
+	
+	<select id="prevPage" resultType="com.moon.domain.NoticeVO">
+	<![CDATA[ 
+		select * from notice where bno < #{bno} and rownum = 1 order by bno desc
+		]]>
+	</select>
+	
+</mapper>

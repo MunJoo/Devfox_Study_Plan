@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:security="http://www.springframework.org/schema/security"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+   <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+   <bean id="CustomLoginSuccess" class="com.moon.security.CustomLoginSuccessHandler"/>
+   <bean id="CustomUserDetailService" class="com.moon.security.CustomUserDetailService"/>
+
+   <!-- no bean name 'springSecurityFilterChain' available 오류 해결을 위한 최소한의 설정 추가 -->
+   <security:http>
+   <!-- <security:form-login/> -->
+   
+      <!-- 접근 권한 설정 -->
+      <security:intercept-url pattern="/adm/admin" access="permitAll"/>
+      <security:intercept-url pattern="/adm/adminmanager" access="hasRole('ROLE_ADMIN')"/>
+      <!-- <security:intercept-url pattern="/sample/insert" access="hasRole({'ROLE_ADMIN', 'ROLE_USER'})"/> -->
+      
+      <!-- 권한이 없는 사람이 접근하면 -->
+      <security:form-login login-page="/member/login.do" authentication-success-handler-ref="CustomLoginSuccess"/>
+      
+      <!-- logout 처리 -->
+      <security:logout logout-url="/member/logout.do" invalidate-session="true" logout-success-url="/"/><!-- 이거 해서 로그아웃 되는 것임 -->
+   </security:http>
+   
+   <security:authentication-manager>
+      <security:authentication-provider user-service-ref="CustomUserDetailService">
+         <security:password-encoder ref="bcryptPasswordEncoder"/>
+      </security:authentication-provider>
+   </security:authentication-manager>
+
+
+
+</beans>
