@@ -25,8 +25,7 @@
                 </div>
             </div>
 	  
-	</div>
-<!-- end contents -->
+	</div> <!-- end contents -->
 	
 
 <!-- 約款全体の同意functionを作成する予定 -->
@@ -47,7 +46,7 @@
 			
 			var form = document.login;//フォーム名loginを変数に保存（扱えるようになる）
 			form.method='post';
-			form.action="/login";// /login.do NOOOOO
+			form.action="/login";// /login.do NOOOOO!
 			form.submit();
 		}
 	</script>

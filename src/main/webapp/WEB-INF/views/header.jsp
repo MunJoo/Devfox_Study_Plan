@@ -32,7 +32,7 @@
 		<header class="header">
 			<nav class="top_left">
 			  <ul>
-			  	<li class="first"><a href="#">HOME</a></li>
+			  	<li class="first"><a href="/">HOME</a></li>
 			  </ul>
 			</nav>
 			<nav class="top_right">

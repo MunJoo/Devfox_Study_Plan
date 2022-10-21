@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moon.mapper.ReplyMapper">
+	
+	<insert id="insert">
+		insert into mj_notice_reply (rno, bno, reply, replyer) 
+		values(reply_seq.nextval, #{bno}, #{reply}, #{replyer})
+	</insert>
+	
+	
+ 	<select id="read" resultType="com.moon.domain.ReplyVO">
+ 		select * from mj_notice_reply where rno = #{rno}
+ 	</select>
+ 	
+ 	
+ 	<delete id="delete">
+ 		delete from mj_notice_reply where rno =#{rno}
+ 	</delete> 	
+ 	
+ 	
+ 	<update id="update">
+ 		update mj_notice_reply set reply=#{reply} where rno = #{rno}
+ 	</update>
+ 	
+ 	
+ 	<select id="getListWithPaging" resultType="com.moon.domain.ReplyVO">
+ 		<![CDATA[
+ 			select rno, bno, reply, replyer, replydate from (
+ 			select /*+ index(mj_notice_reply SYS_C008574) */ rownum rn, rno, bno, reply, replyer, replydate from mj_notice_reply 
+ 			where bno = #{bno} and rno>0 and rownum <= #{cri.pageNum} * #{cri.amount}
+ 			) where rn > #{cri.pageNum} - 1 * #{cri.amount}
+ 		]]>
+ 	</select>
+ 	
+ 	
+ 	<select id="getCountByBno" resultType="int">
+ 		<![CDATA[
+ 			select count(rno) from mj_notice_reply where bno = #{bno} 
+ 		]]>
+ 	</select>
+	
+	
+</mapper>

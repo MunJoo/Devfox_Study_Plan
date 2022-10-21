@@ -7,7 +7,7 @@
 	  <div class="write_wrap">
 	  <form name="notice" method="post" action="notice_write_pro.do" onsubmit="return check()">
 	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-			<table class="bord_table">
+			<table class="board_table">
 				<colgroup>
 					<col width="20%">
 					<col width="*">
@@ -34,9 +34,10 @@
 			</div>
 		</form>
 	  </div>
-	  
-	</div>
-	<!-- end contents -->
+	</div> <!-- end contents -->
+	
+
+<!-- Script -->	
 	<script>
 		function check() {
 			if(notice.writer.value=="") {
@@ -55,9 +56,10 @@
 				return false;
 			}
 			return true;
-		}
-	</script>
+		} //function fin
+	</script> <!-- Script -->
 	
+<!-- Summernote Script -->	
 	<script>
 		$(function() {
 
@@ -68,23 +70,26 @@
          fontNamesIgnoreCheck : [ '맑은고딕' ],
          focus: true,
          
-         callbacks: {
-         onImageUpload: function(files, editor, welEditable) {
-                     for (var i = files.length - 1; i >= 0; i--) {
-                      sendFile(files[i], this);
-                      //挿入した画像をsendfileマスタードに送れ
-                     }
-                 }
-         }
+	         callbacks: {
+	         onImageUpload: function(files, editor, welEditable) {
+		            for (var i = files.length - 1; i >= 0; i--) {
+		             sendFile(files[i], this);
+		             //挿入した画像をsendfileマスタードに送れ
+		            }
+	         	}
+	         }
 
          });
            
          var csrfHeaderName = "${_csrf.headerName}";
          var csrfTokenValue = "${_csrf.token}";
+         
          $(document).ajaxSend(function(e,xhr,option){
             xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
          })
-           function sendFile(file, el) {
+         
+         
+        function sendFile(file, el) {
          
             data = new FormData();
             data.append("file", file);
@@ -110,5 +115,5 @@
          }
 			
 			
-		});
-	</script>
+		}); // function fin
+</script> <!-- /Summernote Script -->

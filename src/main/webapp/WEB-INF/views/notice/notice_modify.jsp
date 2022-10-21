@@ -7,10 +7,11 @@
 	  <div class="write_wrap">
 	  <h2 class="sr-only">Modify</h2>
 	  <form name="notice" method="post" action="notice_modify_pro.do" onsubmit="return check()">
+	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 	  	<input type="hidden" name="bno" value="${nvo.bno}"> <!-- get방식 안됨...? -->
 		<input type="hidden" name="pageNum" value="${cri.pageNum}">
 		<input type="hidden" name="amount" value="${cri.amount }">
-			<table class="bord_table">
+			<table class="board_table">
 				<colgroup>
 					<col width="20%">
 					<col width="*">
@@ -37,10 +38,10 @@
 			</div>
 		</form>
 	  </div>
-	  
-	</div>
-	<!-- end contents -->
-<script>
+	</div> <!-- end contents -->
+	
+<!-- Script -->	
+	<script>
 		function check() {
 			if(notice.writer.value=="") {
 				alert("著者を入力してください。");
@@ -59,11 +60,11 @@
 			}
 			return true;
 		}
-	</script>
+	</script> <!-- /Script -->
 	
+<!-- Summernote Script -->	
 	<script>
 		$(function() {
-			
 			
 			//Summernote
 			$('#summernote').summernote({
@@ -72,21 +73,21 @@
 				fontNamesIgnoreCheck : [ '맑은고딕' ],
 				focus: true,
 
-				callbacks: {//コールバック★サマーノート内にはコールバック機能がない  https://www.w3schools.com/jquery/jquery_callback.asp
-				onImageUpload: function(files, editor, welEditable) {
+					callbacks: {//コールバック★サマーノート内にはコールバック機能がない  https://www.w3schools.com/jquery/jquery_callback.asp
+					onImageUpload: function(files, editor, welEditable) {
 				            for (var i = files.length - 1; i >= 0; i--) {//image 5つ挿入: files.length = image 挿入長(5)
 				             sendFile(files[i], this);
 				            //挿入したimageをsendFileメソッドに送るようにという
 				            }
-				        }
-				}
+						}
+					}
 
 				});
 
 				
-
 				function sendFile(file, el) {
 				var form_data = new FormData();
+				
 				       form_data.append('file', file);
 				       $.ajax({
 				         data: form_data,
@@ -102,4 +103,4 @@
 				       });
 				    }
 		});
-	</script>
+	</script> <!-- /Summernote Script -->		

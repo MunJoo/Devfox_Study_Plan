@@ -94,8 +94,7 @@
             
         </div>
         </form>
-	</div>
-	<!-- end contents -->
+	</div> <!-- end contents -->
 	
 
 <!-- 約款全体の同意functionを作成する予定 -->

@@ -24,9 +24,10 @@
 				<button class="btn_search" type="submit"><i class="fa fa-search"></i><span class="sr-only">検索ボタン</span></button>
 			</form>
 		</div>
-	  </div> <!-- search end -->
-	  <div class="bord_list">
-		<table class="bord_table">
+	  </div> <!-- /search-->
+
+	  <div class="board_list">
+		<table class="board_table">
 			<colgroup>
 				<col width="10%">
 				<col width="*">
@@ -34,6 +35,7 @@
 				<col width="10%">
 				<col width="10%">
 			</colgroup>
+			
 			<thead>
 				<tr>
 					<th>番号</th>
@@ -43,6 +45,7 @@
 					<th>カウント</th>
 				</tr>
 			</thead>
+			
 			<tbody>
 			<c:set var="num" value="${pageMaker.total - ((pageMaker.cri.pageNum-1) * 10)}"/>
 			<c:forEach var="list" items="${list}">
@@ -59,6 +62,8 @@
 			</c:forEach>
 			</tbody>
 		</table>
+
+<!-- Pagination -->		
 		<div class="paging">
 			<c:if test="${pageMaker.prev }">
 				<a href="${pageMaker.startPage-1}"><i class="fa  fa-angle-double-left"></i></a>
@@ -71,7 +76,7 @@
 			</c:if>
 			
 			<div>
-				<sec:authorize access="isAuthenticated()">
+				<sec:authorize access="isAuthenticated()"> <!-- ログインする人だけにボタンが見れる -->
 					<a href="/notice/notice_write.do" class="btn_write">Write</a>
 				</sec:authorize>
 			</div>
@@ -82,45 +87,33 @@
 				<input type="hidden" name="type" value="${pageMaker.cri.type}">
 				<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
 			</form>
-		</div>
+		</div> <!-- /Pagination -->
 	  </div>
-	</div>
-	<!-- end contents -->
+	</div> <!-- /contents -->
 
 	
+	
+<!-- Script -->
+	
 	<script>
+	
 		$(function() {
-			
 			
 			var actionForm = $("#actionForm");
 			
 			$(".paging > a").on("click", function(e){
+				
 				e.preventDefault();
 				actionForm.find("input[name='pageNum']").val($(this).attr("href"));//現在のページ番号の値を取得して転送しなさい
 				actionForm.submit();
+				
 			})
 			
 			
-			var result =  '<c:out value="${result}" />';
-			
-			checkModal(result);
-			
-			function checkModal(result){
-				if(result == ""){
-					return;
-				}
-				if(parseInt(result)>0){
-					$(".modal-body").html("掲示板"+parseInt(result)+" 番登録完了");
-				}
-				if(result == 'success'){
-					$(".modal-body").html("処理完了");
-				}
-				
-				$("#myModal").modal("show");
-			}
-			
 			var searchForm = $("#searchForm");
+			
 			$("#searchForm button").on("click", function(e) {
+				
 				if(!searchForm.find("option:selected").val()){
 					alert("検索の種類を選択してください。");
 					return false;
@@ -133,7 +126,11 @@
 				e.preventDefault();
 				
 				searchForm.submit();
+				
 			})
 			
-		});
-	</script>
+		}); //function
+		
+	</script> <!-- /Script -->
+	
+	
