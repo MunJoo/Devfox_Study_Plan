@@ -12,6 +12,9 @@
                 <div class="login_form">
                     <form id="login" name="login" action="/login">
                     	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    <div th:if="error">
+					   <p id="valid" style="color: red; font-size:12px;"><a th:text="${exception}"></a></p>
+					</div>	
                     <div class="fl_clear">
                     	<label for="id">ID</label>
                     	<input name="username" id="id" type="text">
@@ -44,11 +47,15 @@
 				return false;
 			}
 			
+				
+		
+			
 			var form = document.login;//フォーム名loginを変数に保存（扱えるようになる）
 			form.method='post';
 			form.action="/login";// /login.do NOOOOO!
 			form.submit();
 		}
+
 	</script>
 
 	

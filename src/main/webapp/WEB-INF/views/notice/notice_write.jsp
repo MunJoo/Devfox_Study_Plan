@@ -15,7 +15,9 @@
 				<tbody>
 					<tr class="first">
 						<th>著者</th>
-						<td><input type="text" name="writer"></td>
+						<sec:authorize access="isAuthenticated()">
+						<td><input type="text" name="writer" value="<sec:authentication property="principal.username"/>" readonly></td>
+						</sec:authorize>
 					</tr>
 					<tr>
 						<th>タイトル</th>
@@ -58,6 +60,7 @@
 			return true;
 		} //function fin
 	</script> <!-- Script -->
+	
 	
 <!-- Summernote Script -->	
 	<script>

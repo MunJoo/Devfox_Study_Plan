@@ -42,7 +42,6 @@ public class NoticeController {
 	@GetMapping("/notice_write.do")
 	@PreAuthorize("isAuthenticated()")//ログインが成功したユーザーだけが書き込みができる
 	public void noticeWrite() {
-		
 	}
 	
 	@PostMapping("/notice_write_pro.do")

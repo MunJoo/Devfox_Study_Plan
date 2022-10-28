@@ -3,6 +3,7 @@ package com.moon.service;
 import java.util.List;
 
 import com.moon.domain.Criteria;
+import com.moon.domain.MemberVO;
 import com.moon.domain.NoticeVO;
 
 public interface NoticeService {

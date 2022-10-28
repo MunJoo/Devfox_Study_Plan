@@ -53,7 +53,7 @@ public class ReplyController {
 		log.info("VO: "+vo);
 		int insertCount = service.register(vo);
 		log.info("reply insert count: "+insertCount);
-		return insertCount == 1 ? new ResponseEntity<>("success", HttpStatus.OK) : //success文字と状態値200リターン
+		return insertCount == 1 ? new ResponseEntity<>("Comments has been registered.", HttpStatus.OK) : //success文字と状態値200リターン
 			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//状態値500リターン
 	}
 	
@@ -73,7 +73,7 @@ public class ReplyController {
 	public ResponseEntity<String> modify (@RequestBody ReplyVO vo, @PathVariable("rno") long rno){
 		vo.setRno(rno);
 		log.info("modify: "+vo);
-		return service.modify(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK) : 
+		return service.modify(vo) == 1 ? new ResponseEntity<>("Comments have been modified.", HttpStatus.OK) : 
 			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -81,7 +81,7 @@ public class ReplyController {
 	@PreAuthorize("principal.username == #vo.replyer")
 	@DeleteMapping(value="/{rno}", produces= {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("rno") long rno){
-		return service.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK) : //"success"を送るから<String>
+		return service.remove(rno) == 1 ? new ResponseEntity<>("Comments have been deleted.", HttpStatus.OK) : //"success"を送るから<String>
 			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	

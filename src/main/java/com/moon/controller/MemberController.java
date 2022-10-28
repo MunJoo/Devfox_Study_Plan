@@ -3,6 +3,7 @@ package com.moon.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,11 +52,29 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+//	@GetMapping("/login.do")
+//	public String customLogin(@RequestParam(value = "error", required = false) String error,
+//			@RequestParam(value = "exception", required = false) String exception,
+//			Model model) {
+//		
+//		/* 에러와 예외를 모델에 담아 view resolve */
+//		model.addAttribute("error", error);
+//		model.addAttribute("exception", exception);
+//		return "redirect:/member/login.do";
+//		
+//	}
 	
 	@GetMapping("/login.do")
 	public void customLogin() {
 		
 	}
+	
+	
+	@GetMapping("/error.do")
+	public void errorPage() {
+		
+	}
+		
 	
 	
 }

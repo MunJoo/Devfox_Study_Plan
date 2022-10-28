@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.moon.domain.Criteria;
+import com.moon.domain.MemberVO;
 import com.moon.domain.NoticeVO;
 import com.moon.mapper.NoticeMapper;
 
@@ -49,6 +50,7 @@ public class NoticeServiceImpl implements NoticeService{
 		mapper.readcount(bno);
 		return mapper.read(bno);
 	}
+	
 	
 	@Override
 	public boolean update(NoticeVO notice) {

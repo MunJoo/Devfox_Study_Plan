@@ -45,6 +45,7 @@
 		select * from notice where bno = #{bno}
 	]]>
 	</select>
+
 		
 		
 	<update id="update">

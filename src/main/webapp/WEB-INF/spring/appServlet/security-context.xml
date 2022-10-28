@@ -8,6 +8,7 @@
    <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
    <bean id="CustomLoginSuccess" class="com.moon.security.CustomLoginSuccessHandler"/>
    <bean id="CustomUserDetailService" class="com.moon.security.CustomUserDetailService"/>
+   <bean id="SecurityConfig" class="com.moon.security.CustomLoginFailureHandler"></bean>
 
    <security:http>
    <!-- <security:form-login/> -->
@@ -17,7 +18,11 @@
       <security:intercept-url pattern="/adm/adminmanager" access="hasRole('ROLE_ADMIN')"/>
       
       <!-- 権限のない人が接近すると -->
-      <security:form-login login-page="/member/login.do" authentication-success-handler-ref="CustomLoginSuccess"/>
+      <security:form-login login-page="/member/login.do" authentication-success-handler-ref="CustomLoginSuccess"
+      authentication-failure-handler-ref="SecurityConfig"/>
+       
+       <!-- 로그인 못하면 -->
+       <security:access-denied-handler error-page="/member/error.do"/>
       
       <!-- logout 処理 -->
       <security:logout logout-url="/member/logout.do" invalidate-session="true" logout-success-url="/"/><!-- これでログアウトされるんだ -->
